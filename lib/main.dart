@@ -24,9 +24,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 /// Streams are created so that app can respond to notification-related events
 /// since the plugin is initialised in the `main` function
-final StreamController<ReceivedNotifications>
-    didReceiveLocalNotificationStream =
-    StreamController<ReceivedNotifications>.broadcast();
+final StreamController<ReceivedNotification> didReceiveLocalNotificationStream =
+    StreamController<ReceivedNotification>.broadcast();
 
 final StreamController<String?> selectNotificationStream =
     StreamController<String?>.broadcast();
@@ -36,8 +35,8 @@ const MethodChannel platform =
 
 const String portName = 'notification_send_port';
 
-class ReceivedNotifications {
-  ReceivedNotifications({
+class ReceivedNotification {
+  ReceivedNotification({
     required this.id,
     required this.title,
     required this.body,
@@ -157,7 +156,7 @@ Future<void> main() async {
     onDidReceiveLocalNotification:
         (int id, String? title, String? body, String? payload) async {
       didReceiveLocalNotificationStream.add(
-        ReceivedNotifications(
+        ReceivedNotification(
           id: id,
           title: title,
           body: body,
@@ -313,7 +312,7 @@ class _HomePageState extends State<HomePage> {
 
   void _configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationStream.stream
-        .listen((ReceivedNotifications receivedNotification) async {
+        .listen((ReceivedNotification receivedNotification) async {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
