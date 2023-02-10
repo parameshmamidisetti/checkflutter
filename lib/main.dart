@@ -15,15 +15,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+// here i am adding comment on line number 18
 int id = 0;
+String name = 'paramesh';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 /// Streams are created so that app can respond to notification-related events
 /// since the plugin is initialised in the `main` function
-final StreamController<ReceivedNotification> didReceiveLocalNotificationStream =
-    StreamController<ReceivedNotification>.broadcast();
+final StreamController<ReceivedNotifications>
+    didReceiveLocalNotificationStream =
+    StreamController<ReceivedNotifications>.broadcast();
 
 final StreamController<String?> selectNotificationStream =
     StreamController<String?>.broadcast();
@@ -33,8 +36,8 @@ const MethodChannel platform =
 
 const String portName = 'notification_send_port';
 
-class ReceivedNotification {
-  ReceivedNotification({
+class ReceivedNotifications {
+  ReceivedNotifications({
     required this.id,
     required this.title,
     required this.body,
@@ -154,7 +157,7 @@ Future<void> main() async {
     onDidReceiveLocalNotification:
         (int id, String? title, String? body, String? payload) async {
       didReceiveLocalNotificationStream.add(
-        ReceivedNotification(
+        ReceivedNotifications(
           id: id,
           title: title,
           body: body,
@@ -310,7 +313,7 @@ class _HomePageState extends State<HomePage> {
 
   void _configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationStream.stream
-        .listen((ReceivedNotification receivedNotification) async {
+        .listen((ReceivedNotifications receivedNotification) async {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
